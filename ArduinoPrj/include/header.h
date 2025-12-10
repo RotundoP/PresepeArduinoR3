@@ -1,0 +1,1 @@
+void increaseFade(int* value, int increaseUnit);
