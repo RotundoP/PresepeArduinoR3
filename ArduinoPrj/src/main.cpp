@@ -1,13 +1,24 @@
 #include <Arduino.h>
 
-int stellaCometaPin = 3;        // PWM pin
-int cieloPin = 5;               // PWM pin
+int CometStarPwmPin = 3;       
+int SkyPwmPin = 5;               
+int CometStarFadeVal, SkyFadeVal; 
 
 void setup() {
-    pinMode(stellaCometaPin, OUTPUT);
-    pinMode(cieloPin, OUTPUT);
+    Serial.begin(9600);
+    pinMode(CometStarPwmPin, OUTPUT);
+    pinMode(SkyPwmPin, OUTPUT);
+
+    pinMode(LED_BUILTIN,OUTPUT);
 }
 
 void loop() {
-    // commento
+    analogWrite(CometStarPwmPin,500);
+    Serial.print("Hello");
+    delay(500);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(500);
+    digitalWrite(LED_BUILTIN, HIGH);
 }
+
+//void increaseFade();
