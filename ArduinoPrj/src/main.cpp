@@ -1,6 +1,7 @@
 #include <Arduino.h>
-#include <header.h>
-#include <TimerClass.h>
+#include "header.h"
+#include "TimerClass.h"
+#include "avr8-stub.h"
 
 
 int CometStarPwmPin = 3;       
