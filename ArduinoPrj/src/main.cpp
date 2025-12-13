@@ -10,9 +10,10 @@
     #include "app_api.h"
 #endif
 
-
 #define CometStarPwmPin 3     
-#define SkyPwmPin 5               
+#define SkyPwmPin 5  
+#define DayLightPwmPin 6   
+
 int CometStarFadeVal, SkyFadeVal; 
 int servoPos = 0;    // variable to store the servo position
 //TimerClass MyTontime = TimerClass(10);
@@ -34,6 +35,7 @@ void setup() {
 
     pinMode(CometStarPwmPin, OUTPUT);
     pinMode(SkyPwmPin, OUTPUT);
+    pinMode(DayLightPwmPin, OUTPUT);
     CometStarFadeVal = 255;
     //pinMode(LED_BUILTIN,OUTPUT);
 
@@ -43,6 +45,7 @@ void setup() {
 void loop() {
     analogWrite(CometStarPwmPin,CometStarFadeVal);
     analogWrite(SkyPwmPin,CometStarFadeVal);
+    analogWrite(DayLightPwmPin,CometStarFadeVal);
     
     delay(200);
     increaseFade(&CometStarFadeVal, -5);
