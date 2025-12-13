@@ -2,7 +2,6 @@
 #include <Servo.h>
 #include <Ticker.h>
 #include "header.h"
-#include "TimerClass.h"
 
 //#define DubugMode
 #ifdef DubugMode
@@ -16,8 +15,6 @@
 
 int CometStarFadeVal, SkyFadeVal; 
 int servoPos = 0;    // variable to store the servo position
-//TimerClass MyTontime = TimerClass(10);
-TimerClass pippo(5);
 Servo myservo;
 
 void func() {
