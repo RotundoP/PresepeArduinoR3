@@ -2,6 +2,7 @@
 #include <Servo.h>
 #include <Ticker.h>
 #include "header.h"
+#include "MasterCam.h"
 
 //#define DubugMode
 #ifdef DubugMode
@@ -16,11 +17,8 @@
 int CometStarFadeVal, SkyFadeVal; 
 int servoPos = 0;    // variable to store the servo position
 Servo myservo;
-
-void func() {
-  Serial.println("func.");
-  }
-Ticker ticker1(func, 1000, 0, MILLIS);
+MasterCam Master(5000, 0.25, 60);
+Ticker tickerMaster(masterUpdate, 250, 0, MILLIS);
 
 void setup() {
     #ifdef DubugMode
@@ -36,24 +34,30 @@ void setup() {
     CometStarFadeVal = 255;
     //pinMode(LED_BUILTIN,OUTPUT);
 
-    ticker1.start();
+    tickerMaster.start();
 }
 
 void loop() {
-    analogWrite(CometStarPwmPin,CometStarFadeVal);
-    analogWrite(SkyPwmPin,CometStarFadeVal);
-    analogWrite(DayLightPwmPin,CometStarFadeVal);
+    if (Master.actValue < 1000)
+    {
+        analogWrite(CometStarPwmPin,0);
+        analogWrite(SkyPwmPin,0);
+        analogWrite(DayLightPwmPin,230);
+    }
+    else if (Master.actValue >= 1000 && Master.actValue < 4000)
+    {
+        analogWrite(CometStarPwmPin,0);
+        analogWrite(SkyPwmPin,50);
+        analogWrite(DayLightPwmPin,0);
+    }
+    else
+    {
+        analogWrite(CometStarPwmPin,50);
+        analogWrite(SkyPwmPin,50);
+        analogWrite(DayLightPwmPin,0);
+    }
     
-    delay(200);
-    increaseFade(&CometStarFadeVal, -5);
-
-    ticker1.update();
-    Serial.println("test");
-    //MyTontime.TonTimer(true);
-    //digitalWrite(LED_BUILTIN, LOW);
-    //delay(500);
-    //TON_longDelay(30);
-
+    tickerMaster.update();
     /*
     for (servoPos = 0; servoPos <= 180; servoPos += 1) { // goes from 0 degrees to 180 degrees
         // in steps of 1 degree
@@ -82,17 +86,9 @@ void increaseFade(int* value, int increaseUnit)
     
     *value = val;   
 }
-/*
-/// @brief long acyclic TON delay [s]
-/// @param value 
-/// @return return expired delay status
-bool TON_longDelay(bool enable, int value)
-{
-    if (enable)
-    {
 
-    }
-    else
-        return false;
+void masterUpdate()
+{
+    Serial.println(Master.actValue);
+    Master.Update();
 }
-        */
