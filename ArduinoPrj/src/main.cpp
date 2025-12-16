@@ -33,12 +33,14 @@ PointXY sky_p7(1100, 100.0f);
 PointXY sky_p8(1200, 0.0f);
 
 PointXY *sky_poly[9] = {&sky_p0, &sky_p1, &sky_p2, &sky_p3, &sky_p4, &sky_p5, &sky_p6, &sky_p7, &sky_p8}; // Array of pointer to the class type
+Cam Sky(*sky_poly,8);
 
 void setup() {
     #ifdef DubugMode
         debug_init();
     #else
         Serial.begin(9600);
+        Sky.setSerial(&Serial);
     #endif
     myservo.attach(13);
 
@@ -52,6 +54,7 @@ void setup() {
 }
 
 void loop() {
+    /*
     if (Master.actValue < 1000)
     {
         analogWrite(CometStarPwmPin,0);
@@ -70,8 +73,14 @@ void loop() {
         analogWrite(SkyPwmPin,50);
         analogWrite(DayLightPwmPin,0);
     }
-    
+    */
+    float pwmValue;
     tickerMaster.update();
+    Serial.println(Sky.);
+    pwmValue = Sky.UpdateCam(Master.actValue);
+    //Serial.println(pwmValue);
+    analogWrite(SkyPwmPin,pwmValue);
+    
     /*
     for (servoPos = 0; servoPos <= 180; servoPos += 1) { // goes from 0 degrees to 180 degrees
         // in steps of 1 degree
@@ -89,6 +98,6 @@ void loop() {
 
 void masterUpdate()
 {
-    Serial.println(Master.actValue);
+    //Serial.println(Master.actValue);
     Master.Update();
 }
