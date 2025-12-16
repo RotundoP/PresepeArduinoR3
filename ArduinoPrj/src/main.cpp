@@ -17,7 +17,7 @@
 int CometStarFadeVal, SkyFadeVal; 
 int servoPos = 0;    // variable to store the servo position
 Servo myservo;
-MasterCam Master(5000, 0.25, 60);
+MasterCam Master(0.25, 60);
 Ticker tickerMaster(masterUpdate, 250, 0, MILLIS);
 
 void setup() {
