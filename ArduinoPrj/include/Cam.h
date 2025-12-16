@@ -1,5 +1,6 @@
 #ifndef Cam_H
 #define Cam_H
+    #include <Arduino.h>
 
     class PointXY
     {
@@ -13,10 +14,10 @@
             float y;
     };
 
-    class Fade
+    class Cam
     {
         public:
-            Fade(PointXY *p, int nrPolyPoints);
+            Cam(PointXY *p, int nrPolyPoints);
             float UpdateCam(int masterVal);
 
         private:
@@ -41,7 +42,7 @@
         return y;
     }
 
-    Fade::Fade(PointXY *p, int nrPolyPoints)
+    Cam::Cam(PointXY *p, int nrPolyPoints)
     {
         pointsDefOk = true;
         points = p;
@@ -52,9 +53,11 @@
             if ((points+i)->getX() < (points+i+1)->getX())
             {
                 //std::cout << "Seg. " << i << "ok" << std::endl;
+                Serial.println("Class Cam verifica OK");
             }
             else
             {
+                Serial.println("Class Cam Error");
                 //std::cout << "Error X Points definition in Seg." << i << std::endl;
                 pointsDefOk = false;
                 break;
@@ -62,15 +65,15 @@
         }
 
         // Other checks
-        if (points->getX() != 0 || (points+nrPoints-1)->getX() != 5000)
+        if (points->getX() != 0 || (points+nrPoints-1)->getX() != 1200)
         {
+            Serial.println("Class Cam Error");
             //std::cout << "Error on edge points definition" << std::endl;
             pointsDefOk = false;
-        }
-        
+        }      
     }
 
-    float Fade::UpdateCam(int masterVal)
+    float Cam::UpdateCam(int masterVal)
     {
         float camValue = 0;
         float y_Pn, y_Pnn;
@@ -78,6 +81,7 @@
 
         if (pointsDefOk)
         {
+            Serial.println("update");
             for (int i = 0; i < nrPoints - 1 ; i++)
             {
                 x_Pn = (points+i)->getX();
