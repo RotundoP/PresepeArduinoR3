@@ -3,6 +3,7 @@
 #include <Ticker.h>
 #include "header.h"
 #include "MasterCam.h"
+#include "Cam.h"
 
 //#define DubugMode
 #ifdef DubugMode
@@ -17,8 +18,21 @@
 int CometStarFadeVal, SkyFadeVal; 
 int servoPos = 0;    // variable to store the servo position
 Servo myservo;
+
 MasterCam Master(0.25, 60);
 Ticker tickerMaster(masterUpdate, 250, 0, MILLIS);
+
+PointXY sky_p0(0, 0.0f);
+PointXY sky_p1(150, 100.0f);
+PointXY sky_p2(300, 0.0f);
+PointXY sky_p3(450, 100.0f);
+PointXY sky_p4(500, 0.0f);
+PointXY sky_p5(750, 100.0f);
+PointXY sky_p6(900, 0.0f);
+PointXY sky_p7(1100, 100.0f);
+PointXY sky_p8(1200, 0.0f);
+
+PointXY *sky_poly[9] = {&sky_p0, &sky_p1, &sky_p2, &sky_p3, &sky_p4, &sky_p5, &sky_p6, &sky_p7, &sky_p8}; // Array of pointer to the class type
 
 void setup() {
     #ifdef DubugMode
@@ -71,20 +85,6 @@ void loop() {
         delay(200);                       // waits 15ms for the servo to reach the position
     }
    */
-}
-
-void increaseFade(int* value, int increaseUnit)
-{
-    int val;
-    val = *value;
-    val += increaseUnit;
-
-    if (val > 255)
-        val = 255;
-    else if (val < 0)
-        val = 0;
-    
-    *value = val;   
 }
 
 void masterUpdate()
