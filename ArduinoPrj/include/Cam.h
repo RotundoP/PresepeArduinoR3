@@ -19,6 +19,8 @@
         public:
             Cam(PointXY *p, int nrPolyPoints);
             float UpdateCam(int masterVal);
+            bool isPointDefOk();
+            void printPoints();
 
         private:
             bool pointsDefOk;
@@ -103,6 +105,26 @@
             camValue = 0.0f;
             
         return camValue;
+    }
+
+    bool Cam::isPointDefOk()
+    {
+        return pointsDefOk;
+    }
+
+    void Cam::printPoints()
+    {
+        for (int i = 0; i < nrPoints - 1 ; i++)
+        {
+            //Serial.println(sizeof(points));
+            
+            Serial.print("P"); Serial.print(i); Serial.print(" ");
+            Serial.print((points+i)->getX()); Serial.print(" ");
+            delay(200);
+            Serial.print((points+i)->getY());
+            Serial.println();
+            delay(200);
+        }
     }
 
 #endif
