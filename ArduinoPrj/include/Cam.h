@@ -46,6 +46,7 @@
     {
         pointsDefOk = true;
         points = p;
+        nrPoints = nrPolyPoints;
 
         // Check points.X ascending order
         for (int i = 0; i < nrPoints - 1 ; i++)
