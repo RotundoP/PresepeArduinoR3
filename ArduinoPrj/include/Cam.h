@@ -4,8 +4,13 @@
     class PointXY
     {
         public:
-            float X;
-            float Y;
+            PointXY(int Px, float Py);
+            int getX();
+            float getY();
+
+        private:
+            int x;
+            float y;
     };
 
     class Fade
@@ -20,6 +25,22 @@
             PointXY *points;
     };
 
+    PointXY::PointXY(int Px, float Py)
+    {
+        x = Px;
+        y = Py;
+    }
+
+    int PointXY::getX()
+    {
+        return x;
+    }
+
+    float PointXY::getY()
+    {
+        return y;
+    }
+
     Fade::Fade(PointXY *p, int nrPolyPoints)
     {
         pointsDefOk = true;
@@ -28,7 +49,7 @@
         // Check points.X ascending order
         for (int i = 0; i < nrPoints - 1 ; i++)
         {
-            if ((points+i)->X < (points+i+1)->X)
+            if ((points+i)->getX() < (points+i+1)->getX())
             {
                 //std::cout << "Seg. " << i << "ok" << std::endl;
             }
@@ -41,7 +62,7 @@
         }
 
         // Other checks
-        if (points->X != 0 || (points+nrPoints-1)->X != 5000)
+        if (points->getX() != 0 || (points+nrPoints-1)->getX() != 5000)
         {
             //std::cout << "Error on edge points definition" << std::endl;
             pointsDefOk = false;
@@ -59,10 +80,10 @@
         {
             for (int i = 0; i < nrPoints - 1 ; i++)
             {
-                x_Pn = (points+i)->X;
-                y_Pn = (points+i)->Y;
-                x_Pnn = (points+i+1)->X;
-                y_Pnn = (points+i+1)->Y;
+                x_Pn = (points+i)->getX();
+                y_Pn = (points+i)->getY();
+                x_Pnn = (points+i+1)->getX();
+                y_Pnn = (points+i+1)->getY();
 
                 if (masterVal >= x_Pn && masterVal < x_Pnn)
                 {
