@@ -32,7 +32,7 @@ PointXY sky_p6(900, 0.0f);
 PointXY sky_p7(1100, 100.0f);
 PointXY sky_p8(1200, 0.0f);
 
-PointXY *sky_poly[9] = {&sky_p0, &sky_p1, &sky_p2, &sky_p3, &sky_p4, &sky_p5, &sky_p6, &sky_p7, &sky_p8}; // Array of pointer to the class type
+PointXY *sky_poly[] = {&sky_p0, &sky_p1, &sky_p2, &sky_p3, &sky_p4, &sky_p5, &sky_p6, &sky_p7, &sky_p8}; // Array of pointer to the class type
 Cam Sky(*sky_poly,9);
 
 void setup() {
