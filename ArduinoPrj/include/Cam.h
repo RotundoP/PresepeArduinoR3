@@ -14,10 +14,20 @@
             float y;
     };
 
+    class Points : PointXY
+    {
+        public:
+            Points();
+            void SetPoints(PointXY p0,PointXY p1,PointXY p2,PointXY p3,PointXY p4 ,PointXY p5, PointXY p6, PointXY p7, PointXY p8);
+    
+        private:
+            PointXY points[9];
+    };
+
     class Cam
     {
         public:
-            Cam(PointXY *p, int nrPolyPoints);
+            Cam(PointXY **p, int nrPolyPoints);
             float UpdateCam(int masterVal);
             bool isPointDefOk();
             void printPoints();
@@ -25,7 +35,7 @@
         private:
             bool pointsDefOk;
             int nrPoints;
-            PointXY *points;
+            PointXY **points;
     };
 
     PointXY::PointXY(int Px, float Py)
@@ -44,7 +54,7 @@
         return y;
     }
 
-    Cam::Cam(PointXY *p, int nrPolyPoints)
+    Cam::Cam(PointXY **p, int nrPolyPoints)
     {
         pointsDefOk = true;
         points = p;
@@ -53,7 +63,7 @@
         // Check points.X ascending order
         for (int i = 0; i < nrPoints - 1 ; i++)
         {
-            if ((points+i)->getX() < (points+i+1)->getX())
+            if ((points[i])->getX() < (points[i+1])->getX())
             {
                 //std::cout << "Seg. " << i << "ok" << std::endl;
                 Serial.println("Class Cam verifica OK");
@@ -68,7 +78,7 @@
         }
 
         // Other checks
-        if (points->getX() != 0 || (points+nrPoints-1)->getX() != 1200)
+        if (points[0]->getX() != 0 || points[nrPoints-1]->getX() != 1200)
         {
             Serial.println("Class Cam Error");
             //std::cout << "Error on edge points definition" << std::endl;
@@ -87,10 +97,10 @@
             Serial.println("update");
             for (int i = 0; i < nrPoints - 1 ; i++)
             {
-                x_Pn = (points+i)->getX();
-                y_Pn = (points+i)->getY();
-                x_Pnn = (points+i+1)->getX();
-                y_Pnn = (points+i+1)->getY();
+                x_Pn = points[i]->getX();
+                y_Pn = points[i]->getY();
+                x_Pnn = points[i+1]->getX();
+                y_Pnn = points[i+1]->getY();
 
                 if (masterVal >= x_Pn && masterVal < x_Pnn)
                 {
@@ -114,14 +124,14 @@
 
     void Cam::printPoints()
     {
-        for (int i = 0; i < nrPoints - 1 ; i++)
+        for (int i = 0; i < nrPoints ; i++)
         {
             //Serial.println(sizeof(points));
             
             Serial.print("P"); Serial.print(i); Serial.print(" ");
-            Serial.print((points+i)->getX()); Serial.print(" ");
+            Serial.print(points[i]->getX()); Serial.print(" ");
             delay(200);
-            Serial.print((points+i)->getY());
+            Serial.print(points[i]->getY());
             Serial.println();
             delay(200);
         }
