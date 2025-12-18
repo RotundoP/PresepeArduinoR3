@@ -4,28 +4,28 @@
     class MasterCam
     {
         public:
-            MasterCam(float tSample, float period); // constructor
+            MasterCam(float tSample, int period); // constructor
             void Update();
             void Reset();
-            float actValue;
+            int actValue;
 
         private:
             int maxVal;
-            float samplesTot;
-            float camPeriod; // [s]
+            int samplesTot;
+            int camPeriod; // [s]
             float updateTime; // [s]
-            float incrsPerSample;
+            int incrsPerSample;
 
-            float counter;
+            int counter;
     };
 
-    MasterCam::MasterCam(float tSample, float period)
+    MasterCam::MasterCam(float tSample, int period)
     {
         updateTime = tSample;
         camPeriod = period;
         incrsPerSample = 1;
 
-        samplesTot = camPeriod / updateTime;
+        samplesTot = (int)(camPeriod / updateTime);
         maxVal = incrsPerSample * samplesTot;
     }
 
