@@ -27,7 +27,7 @@
     class Cam
     {
         public:
-            Cam(PointXY **p, int nrPolyPoints);
+            Cam(PointXY **p, int nrPolyPoints, int maxCamVal);
             float UpdateCam(int masterVal);
             bool isPointDefOk();
             void printPoints();
@@ -54,7 +54,7 @@
         return y;
     }
 
-    Cam::Cam(PointXY **p, int nrPolyPoints)
+    Cam::Cam(PointXY **p, int nrPolyPoints, int maxCamVal)
     {
         pointsDefOk = true;
         points = p;
@@ -78,7 +78,7 @@
         }
 
         // Other checks
-        if (points[0]->getX() != 0 || points[nrPoints-1]->getX() != 1200)
+        if (points[0]->getX() != 0 || points[nrPoints-1]->getX() != maxCamVal)
         {
             Serial.println("Class Cam Error");
             //std::cout << "Error on edge points definition" << std::endl;

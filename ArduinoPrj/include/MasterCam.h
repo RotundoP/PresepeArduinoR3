@@ -23,7 +23,7 @@
     {
         updateTime = tSample;
         camPeriod = period;
-        incrsPerSample = 5;
+        incrsPerSample = 1;
 
         samplesTot = camPeriod / updateTime;
         maxVal = incrsPerSample * samplesTot;

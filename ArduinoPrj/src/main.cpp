@@ -15,11 +15,15 @@
 #define SkyPwmPin 5  
 #define DayLightPwmPin 6   
 
+// constant definition
+const float sampleTime = 0.25;
+const int masterCamPeriod = 60;
+
 int CometStarFadeVal, SkyFadeVal; 
 int servoPos = 0;    // variable to store the servo position
 Servo myservo;
 
-MasterCam Master(0.25, 60);
+MasterCam Master(sampleTime, masterCamPeriod);
 Ticker tickerMaster(masterUpdate, 250, 0, MILLIS);
 
 PointXY sky_p0(0, 0.0f);
@@ -33,7 +37,7 @@ PointXY sky_p7(1100, 100.0f);
 PointXY sky_p8(1200, 0.0f);
 
 PointXY *sky_poly[] = {&sky_p0, &sky_p1, &sky_p2, &sky_p3, &sky_p4, &sky_p5, &sky_p6, &sky_p7, &sky_p8}; // Array of pointer to the class type
-Cam Sky(sky_poly,9);
+Cam Sky(sky_poly, 9, (int)(masterCamPeriod/sampleTime));
 
 void setup() {
     #ifdef DubugMode
