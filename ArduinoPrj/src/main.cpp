@@ -19,25 +19,53 @@
 const float sampleTime = 0.25;
 const int masterCamPeriod = 60;
 
-int CometStarFadeVal, SkyFadeVal; 
 int servoPos = 0;    // variable to store the servo position
 Servo myservo;
 
 MasterCam Master(sampleTime, masterCamPeriod);
 Ticker tickerMaster(masterUpdate, 250, 0, MILLIS);
 
+// Sky points and cam definition
 PointXY sky_p0(0, 0.0f);
-PointXY sky_p1(150, 100.0f);
-PointXY sky_p2(300, 0.0f);
-PointXY sky_p3(450, 100.0f);
-PointXY sky_p4(500, 0.0f);
-PointXY sky_p5(750, 100.0f);
-PointXY sky_p6(900, 0.0f);
-PointXY sky_p7(1100, 100.0f);
-PointXY sky_p8(1200, 0.0f);
+PointXY sky_p1(30, 5.0f);
+PointXY sky_p2(60, 10.0f);
+PointXY sky_p3(90, 10.0f);
+PointXY sky_p4(120, 10.0f);
+PointXY sky_p5(150, 10.0f);
+PointXY sky_p6(180, 10.0f);
+PointXY sky_p7(210, 5.0f);
+PointXY sky_p8(240, 0.0f);
 
 PointXY *sky_poly[] = {&sky_p0, &sky_p1, &sky_p2, &sky_p3, &sky_p4, &sky_p5, &sky_p6, &sky_p7, &sky_p8}; // Array of pointer to the class type
 Cam Sky(sky_poly, 9, (int)(masterCamPeriod/sampleTime));
+
+// CometStar points and cam definition
+PointXY comet_p0(0, 0.0f);
+PointXY comet_p1(30, 0.0f);
+PointXY comet_p2(60, 0.0f);
+PointXY comet_p3(90, 5.0f);
+PointXY comet_p4(120, 8.0f);
+PointXY comet_p5(150, 8.0f);
+PointXY comet_p6(180, 8.0f);
+PointXY comet_p7(210, 5.0f);
+PointXY comet_p8(240, 0.0f);
+
+PointXY *comet_poly[] = {&comet_p0, &comet_p1, &comet_p2, &comet_p3, &comet_p4, &comet_p5, &comet_p6, &comet_p7, &comet_p8}; // Array of pointer to the class type
+Cam Comet(comet_poly, 9, (int)(masterCamPeriod/sampleTime));
+
+// DayLight points and cam definition
+PointXY dayLight_p0(0, 80.0f);
+PointXY dayLight_p1(30, 80.0f);
+PointXY dayLight_p2(60, 60.0f);
+PointXY dayLight_p3(90, 30.0f);
+PointXY dayLight_p4(120, 30.0f);
+PointXY dayLight_p5(150, 30.0f);
+PointXY dayLight_p6(180, 60.0f);
+PointXY dayLight_p7(210, 80.0f);
+PointXY dayLight_p8(240, 80.0f);
+
+PointXY *dayLight_poly[] = {&dayLight_p0, &dayLight_p1, &dayLight_p2, &dayLight_p3, &dayLight_p4, &dayLight_p5, &dayLight_p6, &dayLight_p7, &dayLight_p8}; // Array of pointer to the class type
+Cam DayLight(dayLight_poly, 9, (int)(masterCamPeriod/sampleTime));
 
 void setup() {
     #ifdef DubugMode
@@ -50,40 +78,23 @@ void setup() {
     pinMode(CometStarPwmPin, OUTPUT);
     pinMode(SkyPwmPin, OUTPUT);
     pinMode(DayLightPwmPin, OUTPUT);
-    CometStarFadeVal = 255;
-    //pinMode(LED_BUILTIN,OUTPUT);
 
     tickerMaster.start();
 }
 
 void loop() {
-    /*
-    if (Master.actValue < 1000)
-    {
-        analogWrite(CometStarPwmPin,0);
-        analogWrite(SkyPwmPin,0);
-        analogWrite(DayLightPwmPin,230);
-    }
-    else if (Master.actValue >= 1000 && Master.actValue < 4000)
-    {
-        analogWrite(CometStarPwmPin,0);
-        analogWrite(SkyPwmPin,50);
-        analogWrite(DayLightPwmPin,0);
-    }
-    else
-    {
-        analogWrite(CometStarPwmPin,50);
-        analogWrite(SkyPwmPin,50);
-        analogWrite(DayLightPwmPin,0);
-    }
-    */
-    float pwmValue = 40.0f;
+    float pwmValue;
     tickerMaster.update();
-    Sky.printPoints();
-    //delay(500);
-    //pwmValue = Sky.UpdateCam(Master.actValue);
-    //Serial.println(pwmValue);
-    analogWrite(SkyPwmPin,pwmValue);
+
+    pwmValue = Sky.UpdateCam(Master.actValue);
+    analogWrite(SkyPwmPin,round(pwmValue));
+
+    pwmValue = Comet.UpdateCam(Master.actValue);
+    analogWrite(CometStarPwmPin,round(pwmValue));
+
+    pwmValue = DayLight.UpdateCam(Master.actValue);
+    analogWrite(DayLightPwmPin,round(pwmValue));
+    //DayLight.printPoints();
   
     /*
     for (servoPos = 0; servoPos <= 180; servoPos += 1) { // goes from 0 degrees to 180 degrees
