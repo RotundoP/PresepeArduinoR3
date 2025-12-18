@@ -94,7 +94,6 @@
 
         if (pointsDefOk)
         {
-            Serial.println("update");
             for (int i = 0; i < nrPoints - 1 ; i++)
             {
                 x_Pn = points[i]->getX();
@@ -102,7 +101,7 @@
                 x_Pnn = points[i+1]->getX();
                 y_Pnn = points[i+1]->getY();
 
-                if (masterVal >= x_Pn && masterVal < x_Pnn)
+                if (masterVal >= x_Pn && masterVal <= x_Pnn)
                 {
                     //std::cout << "Working on segment " << i << std::endl;
                     
