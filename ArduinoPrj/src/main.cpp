@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <Servo.h>
 #include <Ticker.h>
 #include "header.h"
 #include "MasterCam.h"
