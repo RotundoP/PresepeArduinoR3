@@ -13,14 +13,11 @@
 
 #define CometStarPwmPin 3     
 #define SkyPwmPin 5  
-#define DayLightPwmPin 6   
+#define DayLightPwmPin 6  
 
 // constant definition
 const float sampleTime = 0.5;
 const int masterCamPeriod = 120;
-
-int servoPos = 0;    // variable to store the servo position
-Servo myservo;
 
 MasterCam Master(sampleTime, masterCamPeriod);
 Ticker tickerMaster(masterUpdate, sampleTime * 1000.0f, 0, MILLIS);
@@ -73,7 +70,6 @@ void setup() {
     #else
         Serial.begin(9600);
     #endif
-    myservo.attach(13);
     
     pinMode(CometStarPwmPin, OUTPUT);
     pinMode(SkyPwmPin, OUTPUT);
@@ -96,19 +92,6 @@ void loop() {
     analogWrite(DayLightPwmPin,round(pwmValue));
     //DayLight.printPoints();
   
-    /*
-    for (servoPos = 0; servoPos <= 180; servoPos += 1) { // goes from 0 degrees to 180 degrees
-        // in steps of 1 degree
-        myservo.write(servoPos);              // tell servo to go to position in variable 'servoPos'
-        delay(200);                       // waits 15ms for the servo to reach the position
-
-    }
-
-    for (servoPos = 180; servoPos >= 0; servoPos -= 1) { // goes from 180 degrees to 0 degrees
-        myservo.write(servoPos);              // tell servo to go to position in variable 'servoPos
-        delay(200);                       // waits 15ms for the servo to reach the position
-    }
-   */
 }
 
 void masterUpdate()
