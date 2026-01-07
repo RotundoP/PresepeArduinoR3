@@ -3,6 +3,7 @@
 #include "header.h"
 #include "MasterCam.h"
 #include "Cam.h"
+#include "Jr6001.h"
 
 //#define DubugMode
 #ifdef DubugMode
@@ -20,6 +21,9 @@ const int masterCamPeriod = 120;
 
 MasterCam Master(sampleTime, masterCamPeriod);
 Ticker tickerMaster(masterUpdate, sampleTime * 1000.0f, 0, MILLIS);
+
+Jr6001 audioModule;
+char TX_toAudioModule[10];
 
 // Sky points and cam definition
 PointXY sky_p0(0, 0.0f);
@@ -79,6 +83,7 @@ void setup() {
 
 void loop() {
     float pwmValue;
+    static int trackNr = 1;
     tickerMaster.update();
 
     pwmValue = Sky.UpdateCam(Master.actValue);
@@ -91,6 +96,16 @@ void loop() {
     analogWrite(DayLightPwmPin,round(pwmValue));
     //DayLight.printPoints();
   
+    audioModule.play(TX_toAudioModule);
+    Serial.print(TX_toAudioModule);
+    delay(2000);
+    audioModule.setVolume(TX_toAudioModule, 5);
+    Serial.print(TX_toAudioModule);
+    delay(2000);
+    audioModule.playTrack(TX_toAudioModule, trackNr++);
+    Serial.print(TX_toAudioModule);
+    //Serial.println(trackNr);
+    delay(2000);
 }
 
 void masterUpdate()
